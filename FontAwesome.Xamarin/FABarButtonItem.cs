@@ -24,14 +24,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using MonoTouch.UIKit;
-using System.Drawing;
+using CoreGraphics;
+using UIKit;
+using System.ComponentModel;
+using Foundation;
 
 namespace FontAwesomeXamarin
 {
 	public class FABarButtonItem : UIBarButtonItem
 	{
-		private UILabel _titleLabel = null;
+		private UILabel _iconLabel = null;
 		private UIButton _iconButton = null;
 
 		/// <summary>
@@ -39,20 +41,13 @@ namespace FontAwesomeXamarin
 		/// Throws <see cref="FontAwesome.Xamarin.FontAwesomeException"/> if this button does not have a title
 		/// </summary>
 		/// <value>The title.</value>
-		public override string Title{
+		public string IconText{
 			get{
-				if (_titleLabel != null) {
-					return _titleLabel.Text;
-				} else {
-					throw new FontAwesomeException ("This button does not have a title");
-				}
+					return _iconLabel.Text;
 			}
 			set{
-				if (_titleLabel != null) {
-					_titleLabel.Text = value;
-				} else {
-					throw new FontAwesomeException ("This button does not have a title");
-				}
+					_iconLabel.Text = value;
+			
 			}
 		}
 
@@ -63,18 +58,11 @@ namespace FontAwesomeXamarin
 		/// <value>The icon.</value>
 		public string Icon {
 			get {
-				if (_iconButton != null) {
 					return _iconButton.Title (UIControlState.Normal);
-				}else {
-					throw new FontAwesomeException ("This button has not been initialized yet");
-				}
 			}
 			set {
-				if (_iconButton != null) {
 					_iconButton.SetTitle (value, UIControlState.Normal);
-				}else {
-					throw new FontAwesomeException ("This button has not been initialized yet");
-				}
+
 			}
 		}
 
@@ -87,11 +75,11 @@ namespace FontAwesomeXamarin
 		/// <param name="handler">The event handler for when the button is pressed</param>
 		public FABarButtonItem (string icon, UIColor fontColor, EventHandler handler) : base()
 		{
-			_iconButton = new UIButton (new RectangleF (0, 0, 32, 32)) {
+			_iconButton = new UIButton (new CGRect (0, 0, 32, 32)) {
 				Font = FontAwesome.Font (25)
 			};
 			_iconButton.SetTitleColor (fontColor, UIControlState.Normal);
-			_iconButton.TouchUpInside += handler;
+			_iconButton.TouchUpInside += (sender, e) => handler(this, null);
 
 			this.Icon = icon;
 
@@ -107,25 +95,33 @@ namespace FontAwesomeXamarin
 		/// <param name="handler">The event handler for when the button is pressed</param>
 		public FABarButtonItem (string icon, string title, UIColor fontColor, EventHandler handler) : base()
 		{
-			UIView view = new UIView (new RectangleF (0, 0, 32, 32));
+			UIView view = new UIView (new CGRect (2, 0, 56, 32));
+			view.AddGestureRecognizer (new UITapGestureRecognizer (() =>  {
+				handler (this, null);
+			}));
 
-			_iconButton = new UIButton (new RectangleF (0, 0, 32, 21)) {
+			_iconButton = new UIButton (new CGRect (14, 0, 32, 21)) {
 				Font = FontAwesome.Font (20),
 			};
 			_iconButton.SetTitleColor (fontColor, UIControlState.Normal);
-			_iconButton.TouchUpInside += handler;
+			_iconButton.AddGestureRecognizer (new UITapGestureRecognizer (() =>  {
+				handler (this, null);
+			}));
 
-			_titleLabel = new UILabel (new RectangleF (0, 18, 32, 10)) {
+			_iconLabel = new UILabel (new CGRect (0, 22, 56, 10)) {
 				TextColor = fontColor,
 				Font = UIFont.SystemFontOfSize(10f),
 				TextAlignment = UITextAlignment.Center
 			};
+			_iconLabel.AddGestureRecognizer (new UITapGestureRecognizer (() => {
+				handler (this, null);
+			}));
 
-			this.Title = title;
+			this.IconText = title;
 			this.Icon = icon;
 
 			view.Add (_iconButton);
-			view.Add (_titleLabel);
+			view.Add (_iconLabel);
 
 			CustomView = view;
 		}

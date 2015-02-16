@@ -1,9 +1,10 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+﻿<Properties StartupItem="FontAwesome.Xamarin/FontAwesome.Xamarin.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.Ipad mini white" />
   <MonoDevelop.Ide.Workbench ActiveDocument="FontAwesome.Xamarin/FABarButtonItem.cs">
     <Files>
-      <File FileName="FontAwesome.Xamarin/FontAwesome.cs" Line="1" Column="1" />
-      <File FileName="FontAwesome.Xamarin/FABarButtonItem.cs" Line="63" Column="18" />
+      <File FileName="FontAwesome.Xamarin/FAButton.cs" Line="73" Column="73" />
+      <File FileName="FontAwesome.Xamarin/FontAwesomeException.cs" Line="1" Column="1" />
+      <File FileName="FontAwesome.Xamarin/FABarButtonItem.cs" Line="26" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
